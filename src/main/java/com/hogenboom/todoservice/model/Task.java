@@ -1,15 +1,9 @@
 package com.hogenboom.todoservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDate;
 import java.util.Date;
 
-// @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
-        allowGetters = true)
 
 @Entity
 @Table(name = "task")
@@ -19,13 +13,13 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "task_name")
     @NotBlank
     private String name;
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)private Date startDate;
-    private Date deadLine;
+    private Date deadline;
 
     @Column
     private Date dateOfCompletion;
@@ -57,12 +51,12 @@ public class Task {
         this.startDate = startDate;
     }
 
-    public Date getDeadLine() {
-        return deadLine;
+    public Date getDeadline() {
+        return deadline;
     }
 
-    public void setDeadLine(Date deadLine) {
-        this.deadLine = deadLine;
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
     }
 
     public Date getDateOfCompletion() {

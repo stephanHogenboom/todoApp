@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <name>To do service</name>
-
-
-
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 </head>
 <body>
 <p th:text="'Hello, ' + ${name} + ', this is you do page!'"/>
@@ -17,7 +15,6 @@
         <thead>
         <tr>
             <th>name</th>
-            <th>description</th>
             <th>start date</th>
             <th>deadline</th>
             <th>date of completion</th>
@@ -30,19 +27,19 @@
     <table>
         <tbody>
         <tr>
-            <form onsubmit="">
-                <td><input type="text"></td>
-                <td><input id="currentDate" type="text" disabled>
-                </td>
-                <td><input type="text"></td>
-                <td><input type="text"></td>
-                <td><input type="text"></td>
-                <td><input type="text"></td>
-            </form>
+            <td>
+                <form  id="uploadTaskForm" onsubmit="">
+                    <input id="name"  type="text">
+                    <input id="startDate" type="text" disabled>
+                    <input id="deadline" type="text">
+                    <input id="dateOfCompletion" type="text">
+                    <input id="priority" type="text">
+                </form>
+            </td>
         </tr>
         <tr>
             <td>
-                <button type="submit" onclick="currentDate">Upload task</button>
+                <button type="submit" onclick="postTask()">Upload task</button>
             </td>
             <td></td>
             <td></td>
@@ -61,7 +58,45 @@
         var day = currentDate.getDate();
         var month = currentDate.getMonth();
         var year = currentDate.getFullYear();
-        document.getElementById("currentDate").value = "" + day + "-" + month + "-" + year;
+        document.getElementById("startDate").value = "" + day + "-" + month + "-" + year;
+        console.log("found me")
+</script>
+
+<script type="text/javascript">
+        postTask = function(){
+        console.log("triggered")
+            // init task object
+            var name = document.getElementById('name').value
+            var startDate = document.getElementById('name').value
+            var deadline = document.getElementById('startDate').value
+            var endDate = document.getElementById('deadline').value
+            var dateOfCompletion = document.getElementById('dateOfCompletion').value
+            var priority = document.getElementById('priority').value
+
+            var jsonTask = {
+                        "name":name,
+                        "startDate":startDate,
+                        "deadline":deadline,
+                        "endDate":endDate,
+                        "dateOfCompletion":dateOfCompletion,
+                        "priority":priority
+                    }
+            console.log(jsonTask)
+            //send object to taskCreateHandler
+            $.ajax({
+             headers: {
+               'Accept': 'application/json',
+               'Content-Type': 'application/json'
+             },
+             type: "POST",
+             url: "/tasks",
+             data: jsonTask,
+             success: function(data){
+                $("#responseHtmlElement").html(data.name);
+            },
+             dataType: "json"
+            });
+        }
 
 </script>
 
