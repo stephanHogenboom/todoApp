@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <name>To do service</name>
+
+
+
+</head>
+<body>
+<p th:text="'Hello, ' + ${name} + ', this is you do page!'"/>
+
+<div>
+
+
+    <table> Tasks
+        <thead>
+        <tr>
+            <th>name</th>
+            <th>description</th>
+            <th>start date</th>
+            <th>deadline</th>
+            <th>date of completion</th>
+            <th>priority</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <table>
+        <tbody>
+        <tr>
+            <form onsubmit="">
+                <td><input type="text"></td>
+                <td><input id="currentDate" type="text" disabled>
+                </td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+            </form>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit" onclick="currentDate">Upload task</button>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+</div>
+
+<script type="text/javascript">
+        var currentDate = new Date();
+        var day = currentDate.getDate();
+        var month = currentDate.getMonth();
+        var year = currentDate.getFullYear();
+        document.getElementById("currentDate").value = "" + day + "-" + month + "-" + year;
+
+</script>
+
+</body>
+
+</html>
+
