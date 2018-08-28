@@ -2,102 +2,240 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <name>To do service</name>
-    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <title>Todo Service</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <!--<link rel="stylesheet" type="text/css" th:href="@{/static/css/to_do_page.css}"/>-->
 </head>
 <body>
-<p th:text="'Hello, ' + ${name} + ', this is you do page!'"/>
+<nav class="navbar navbar-dark bg-primary">
+</nav>
+<div class="container pull-left">
+    <h1>To do list </h1>
+</div>
 
-<div>
-
-
-    <table> Tasks
+<div class="container pull-left">
+    <table id="taskTable" class="table table-hover table-striped" cellspacing="0" width="100%">
         <thead>
         <tr>
-            <th>name</th>
-            <th>start date</th>
-            <th>deadline</th>
-            <th>date of completion</th>
-            <th>priority</th>
+            <th scope="col">#</th>
+            <th scope="col">name</th>
+            <th scope="col">start date</th>
+            <th scope="col">deadline</th>
+            <th scope="col">status</th>
+            <th scope="col">date of completion</th>
+            <th scope="col">priority</th>
+            <th scope="col"> update</th>
+            <th scope="col"> delete</th>
         </tr>
         </thead>
         <tbody>
+        <th:block th:each="task : ${tasks}">
+            <tr>
+                <td><span contenteditable="false" class="task-id" th:text="${task.getId()}"></span></td>
+                <td><span contenteditable="true" class="task-name" th:text="${task.getName()}"></span></td>
+                <td><span contenteditable="true" class="task-start"
+                          th:text="${task.getStartDate().toString().substring(0, 10)}"></span></td>
+                <td>
+                    <span contenteditable="true" class="task-deadline"
+                          th:text="${task.getDeadline() == null ? '' : task.getDeadline().toString().substring(0, 10)}">
+                    </span>
+                </td>
+                <td><span contenteditable="true" class="task-status"
+                          th:text="${task.getStatus() == null ?  'Todo' : task.getStatus()}"></span></td>
+                <td><span contenteditable="true" class="task-date-of-completion"
+                          th:text="${task.getDateOfCompletion() == null ? '' : task.getDateOfCompletion().toString().substring(0, 10)}"></span>
+                </td>
+                <td><span contenteditable="true" class="task-priority" th:text="${task.getPriority()}"></span></td>
+                <td>
+                    <button type="button" class="update-task btn btn-primary">update task</button>
+                </td>
+                <td>
+                    <button type="button" class="delete-task btn btn-primary">delete task</button>
+                </td>
+            </tr>
+        </th:block>
         </tbody>
+        </form>
     </table>
-    <table>
+</div>
+<br>
+
+<div class="container pull-left">
+    <h3>Add a new task</h3>
+</div>
+<br>
+<br>
+<br>
+<div class="container pull-left">
+    <table id="taskUploadTable" class="table table-hover table-striped" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th scope="col">name</th>
+            <th scope="col">start date</th>
+            <th scope="col">deadline</th>
+            <th scope="col">status</th>
+            <th scope="col">date of completion</th>
+            <th scope="col">priority</th>
+        </tr>
+        </thead>
         <tbody>
         <tr>
-            <td>
-                <form  id="uploadTaskForm" onsubmit="">
-                    <input id="name"  type="text">
-                    <input id="startDate" type="text" disabled>
-                    <input id="deadline" type="text">
-                    <input id="dateOfCompletion" type="text">
-                    <input id="priority" type="text">
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <button type="submit" onclick="postTask()">Upload task</button>
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><input placeholder="name" id="name" type="text"></td>
+            <td><input placeholder="dd-MM-yyyy" id="startDate" type="text" disabled></td>
+            <td><input placeholder="dd-MM-yyyy" id="deadline" type="text"></td>
+            <td><input placeholder="status" id="status" type="text"></td>
+            <td><input placeholder="dd-MM-yyyy" id="dateOfCompletion" type="text"></td>
+            <td><input placeholder="priority" id="priority" type="text"></td>
         </tr>
         </tbody>
     </table>
+</div>
+<br>
+<br>
 
-
+<div class="container pull-left">
+    <button type="submit" class="btn btn-primary" onclick="postTask()">Upload task</button>
+</div>
+<div class="container pull-left">
+    <label id="ResponseLabel"></label>
 </div>
 
 <script type="text/javascript">
-        var currentDate = new Date();
-        var day = currentDate.getDate();
-        var month = currentDate.getMonth();
-        var year = currentDate.getFullYear();
-        document.getElementById("startDate").value = "" + day + "-" + month + "-" + year;
-        console.log("found me")
+    //make taskTable sortable
+    $(document).ready(function () {
+        $('#taskTable').DataTable(
+        )
+    });
+
+    // give new tasks today as starting date
+    var currentDate = new Date();
+    var day = currentDate.getDate();
+    var month = currentDate.getMonth();
+    month = month < 10 ? "0" + month : month;
+    var year = currentDate.getFullYear();
+    document.getElementById("startDate").value = "" + day + "-" + month + "-" + year;
 </script>
 
 <script type="text/javascript">
-        postTask = function(){
-        console.log("triggered")
-            // init task object
-            var name = document.getElementById('name').value
-            var startDate = document.getElementById('name').value
-            var deadline = document.getElementById('startDate').value
-            var endDate = document.getElementById('deadline').value
-            var dateOfCompletion = document.getElementById('dateOfCompletion').value
-            var priority = document.getElementById('priority').value
+    postTask = function () {
+        // init task object
+        var name = document.getElementById('name').value
+        var startDate = document.getElementById('startDate').value
+        var deadline = document.getElementById('deadline').value
+        var dateOfCompletion = document.getElementById('dateOfCompletion').value
+        var priority = document.getElementById('priority').value
+        var status = document.getElementById('status').value
 
-            var jsonTask = {
-                        "name":name,
-                        "startDate":startDate,
-                        "deadline":deadline,
-                        "endDate":endDate,
-                        "dateOfCompletion":dateOfCompletion,
-                        "priority":priority
-                    }
-            console.log(jsonTask)
-            //send object to taskCreateHandler
-            $.ajax({
-             headers: {
-               'Accept': 'application/json',
-               'Content-Type': 'application/json'
-             },
-             type: "POST",
-             url: "/tasks",
-             data: jsonTask,
-             success: function(data){
-                $("#responseHtmlElement").html(data.name);
-            },
-             dataType: "json"
-            });
+        if (name == null || name === "") {
+            document.getElementById("ResponseLabel").innerHTML = "<span class='color-red'>name of the task cannot be null</span>"
+            return
+        }
+        if (dateOfCompletion != null && dateOfCompletion < startDate) {
+            document.getElementById("ResponseLabel").innerHTML = "<span class='color-red'>the date of completion cannot be for the start date</span>"
+            return
         }
 
+        var jsonTask = {
+            "name": name,
+            "startDate": startDate,
+            "deadline": deadline,
+            "dateOfCompletion": dateOfCompletion,
+            "status": status,
+            "priority": priority
+        }
+        var jsonString = JSON.stringify(jsonTask)
+        console.log("jsontask = ")
+        console.log(jsonTask)
+        //send object to taskCreateHandler
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            url: "../tasks",
+            data: jsonString,
+            success: function (data) {
+                document.getElementById("ResponseLabel").innerHTML = "<span class='color-green'>task successfully uploaded!</span>"
+            },
+
+            dataType: "json"
+        });
+    }
+</script>
+
+<script type="text/javascript">
+    function createJsonFromRow($updateRow) {
+        var name = $updateRow.find(".task-name").text()
+        var startDate = $updateRow.find(".task-start").text()
+        var deadline = $updateRow.find(".task-deadline").text()
+        var dateOfCompletion = $updateRow.find(".task-date-of-completion").text()
+        var status = $updateRow.find(".task-status").text()
+        var priority = $updateRow.find(".task-priority").text()
+        var id = $updateRow.find(".task-id").text()
+        var jsonTask = {
+            "id": id,
+            "name": name,
+            "startDate": startDate,
+            "deadline": deadline,
+            "dateOfCompletion": dateOfCompletion,
+            "status": status,
+            "priority": priority
+        }
+        var taskAsJsonString = JSON.stringify(jsonTask)
+        return {id: id, jsonTask: jsonTask, taskAsJsonString: taskAsJsonString};
+    }
+
+    $(".update-task").click(function () {
+        var $updateRow = $(this).closest("tr")
+
+
+        var jsonTask = createJsonFromRow($updateRow);
+        var taskAsJsonString = jsonTask.taskAsJsonString
+        var id = jsonTask.id
+        console.log("jsontask = ")
+        console.log(jsonTask)
+        //send object to putHandler
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "PUT",
+            url: "../tasks/" + id,
+            data: taskAsJsonString,
+            success: function (data) {
+                document.getElementById("ResponseLabel").innerHTML = "<span class='color-green'>task successfully updated!</span>"
+            },
+            dataType: "json"
+        });
+    })
+
+    $(".delete-task").click(function () {
+        var $updateRow = $(this).closest("tr")
+        var jsonTask = createJsonFromRow($updateRow);
+        var taskAsJsonString = JSON.stringify(jsonTask)
+        console.log("jsontask = ")
+        console.log(jsonTask)
+        //send object to deleteHandler
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "DELETE",
+            url: "../tasks/" + jsonTask.id,
+            data: taskAsJsonString,
+            success: function (data) {
+                document.getElementById("ResponseLabel").innerHTML = "<span class='color-green'>task successfully deleted!</span>"
+            },
+            dataType: "json"
+        });
+    })
 </script>
 
 </body>
