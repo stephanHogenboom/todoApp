@@ -25,7 +25,7 @@ public class Task {
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date startDate;
 
     @Column
@@ -34,11 +34,11 @@ public class Task {
     private String status;
 
     @Column
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date deadline;
 
     @Column
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     @JsonInclude(Include.NON_NULL)
     private Date dateOfCompletion;
 
