@@ -25,25 +25,24 @@ public class Task {
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date startDate;
 
     @Column
     @NotBlank
-    @ColumnDefault("todo")
     private String status;
 
     @Column
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date deadline;
 
     @Column
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @JsonInclude(Include.NON_NULL)
     private Date dateOfCompletion;
 
     @Column
-    private int priority;
+    private String priority;
 
     public Long getId() {
         return id;
@@ -85,11 +84,11 @@ public class Task {
         this.dateOfCompletion = dateOfCompletion;
     }
 
-    public int getPriority() {
+    public String getPriority() {
         return priority;
     }
 
-    public void setPriority(int priority) {
+    public void setPriority(String priority) {
         this.priority = priority;
     }
 

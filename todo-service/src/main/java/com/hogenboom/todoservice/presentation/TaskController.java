@@ -6,6 +6,9 @@ import com.hogenboom.todoservice.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 public class TaskController {
 
@@ -14,8 +17,9 @@ public class TaskController {
 
     @CrossOrigin
     @PostMapping("/tasks")
-    public void createTask(@RequestBody Task task) {
+    public void createTask(@RequestBody Task task, HttpServletResponse response) {
         taskRepository.save(task);
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     @CrossOrigin
