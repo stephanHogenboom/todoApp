@@ -1,8 +1,7 @@
-package com.hogenboom.todoservice.presentation;
+package com.hogenboom.taskservice.presentation;
 
-import com.hogenboom.todoservice.acces.ResourceNotFoundException;
-import com.hogenboom.todoservice.acces.TaskRepository;
-import com.hogenboom.todoservice.model.Task;
+import com.hogenboom.taskservice.acces.TaskRepository;
+import com.hogenboom.taskservice.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

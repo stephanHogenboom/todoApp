@@ -1,4 +1,4 @@
-package com.hogenboom.todoservice.acces;
+package com.hogenboom.taskservice.acces;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
