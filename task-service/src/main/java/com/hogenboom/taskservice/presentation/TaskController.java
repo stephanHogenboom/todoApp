@@ -1,5 +1,6 @@
 package com.hogenboom.taskservice.presentation;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hogenboom.taskservice.model.Task;
 import com.hogenboom.taskservice.service.TaskService;
@@ -23,13 +24,23 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
+    @GetMapping("/tasks/{taskId}")
+    public void getSingleTask(@PathVariable Long taskId, HttpServletResponse response) throws IOException {
+        Task task = taskService.getTaskById(taskId);
+        if (task != null) {
+            response.getWriter().write(Mapper.writeValueAsString(task));
+        } else {
+            response.setStatus(SC_NOT_FOUND);
+        }
+    }
+
     @CrossOrigin
     @GetMapping("/tasks")
     public void getTasks(HttpServletResponse response) throws IOException {
         List<Task> tasks = taskService.getAllTasks();
         if (tasks.isEmpty()) {
-            response.setStatus(SC_NOT_FOUND);
-            LOGGER.info("No tasks found");
+            response.setStatus(SC_NO_CONTENT);
+            LOGGER.warn("No tasks found");
         } else {
             String tasksAsJson = Mapper.writeValueAsString(tasks);
             response.setContentType("application/json");

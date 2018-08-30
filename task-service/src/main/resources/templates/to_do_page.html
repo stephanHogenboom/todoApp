@@ -144,11 +144,11 @@
     });
 
     // give new tasks today as starting date
-    var currentDate = new Date();
-    var day = currentDate.getDate();
-    var month = currentDate.getMonth();
+    let currentDate = new Date();
+    let day = currentDate.getUTCDate();
+    let month = currentDate.getUTCMonth() + 1; //months in js start at 0
     month = month < 10 ? "0" + month : month;
-    var year = currentDate.getFullYear();
+    let year = currentDate.getUTCFullYear();
     document.getElementById("startDate").value = "" + day + "-" + month + "-" + year;
 </script>
 
@@ -163,13 +163,21 @@
         var status = document.getElementById('status').value
 
         if (name == null || name === "") {
-            document.getElementById("ResponseLabel").innerHTML = "<span class='color-red'>name of the task cannot be null</span>"
+            alert("the name field cannot be empty")
             return
         }
-        // if (dateOfCompletion != null && dateOfCompletion.length > 0 && dateOfCompletion < startDate) {
-        //     document.getElementById("ResponseLabel").innerHTML = "<span class='color-red'>the date of completion cannot be for the start date</span>"
-        //     return
-        // }
+        if (status == null || status === "") {
+            alert("the name field cannot be empty")
+            return
+        }
+        if (priority == null || priority === "") {
+            alert("the priority field cannot be empty")
+            return
+        }
+        if (startDate == null || startDate === "") {
+            alert("the startDate field cannot be empty")
+            return
+        }
 
         var jsonTask = {
             "name": name,
@@ -180,8 +188,6 @@
             "priority": priority
         }
         var jsonString = JSON.stringify(jsonTask)
-        console.log("jsontask = ")
-        console.log(jsonTask)
         //send object to taskCreateHandler
         $.ajax({
             headers: {
