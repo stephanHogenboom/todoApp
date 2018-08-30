@@ -15,9 +15,7 @@ For the default setting this would be:
 sudo docker run --name <taskservice>-postgres -p 5432:5432 -e POSTGRES_USER=<taskservice> -e POSTGRES_PASSWORD=<taskservice> -d postgres
 
 
-## Start the loading service:
-
-    [$ sudo mkdir /var/log/loading-service]
+## Start the task service:
     $ cd task-service
     $ mvn clean install
     $ java -cp target/my-app-1.0-SNAPSHOT.jar com.hogenboom.taskservice.WebApplication
@@ -25,5 +23,4 @@ sudo docker run --name <taskservice>-postgres -p 5432:5432 -e POSTGRES_USER=<tas
 ## Next run the tests:
 
     $ cd <task-service-system-test>
-    $ mvn test
-    
+    $ mvn test  
