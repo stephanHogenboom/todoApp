@@ -4,10 +4,19 @@ The to do application is simple webapp that allows a user to manage a todo list.
 
 ## Setup the database first  
 
-This application uses a postgresql database for persistent data. Therefor a instance of postgresql 
-should be available on the server that runs this application. If the service is a window machine
-postgresql can be downloaded at https://www.postgresql.org/.  After downloading postresql, open the pgAdmin4 app (which came togheter with postgres) and create a new database named: taskservice.   Then add an new login/ Group roles and name the user: taskservice. Give this user the password: taskservice (defintion tab)  and the privilege to login (privilege tab). You can also add an user with a different name/ password. If you do so, don't forget to also change the values of these fields in the 
-/task-service/src/main/resources/application.properties file, before starting the application.   
+### Running a Postgres database locally - Windows
+
+    $ 1. [Download Postgres](http://www.enterprisedb.com/products-services-training/pgdownload#windows) (Filesize 137mb)
+    $ 2. Use the standard setup during installation. Choose a port of your choice. Do not forget the admin password. No steps 
+    needed in the Stack Builder.
+    $ 3. Open Startmenu -> PostgreSQL 9.6 -> pgAdmin 4
+    $ 4. Create user &lt;SERVICE_NAME&gt;service: click right mouse button on 'Login/Group Roles' -> Create -> Login/Group Role... 
+    Password is filled in the Definition tab. Tick the rights-boxes 'Can Login?' & 'Superuser' in Privileges.
+    $ 5. Create the database &lt;SERVICE_NAME&gt;service: click right mouse button on 'Databases' -> Create -> Database... 
+    Make sure that the owner is the &lt;SERVICE_NAME&gt;service user.
+    $ 6. Make sure that the connection_string in application.go is equal to all the info for your local db. Start         &lt;SERVICE_NAME&gt;service.
+
+### Running a Postgres database locally - Linux
 
 If the server is a unix/ linux machine it is easier to use docker to run a instance of postgres.
 To run postgres locally through docker open a terminal and type the following line(replace the words between <> with the actual values): 
