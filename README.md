@@ -6,15 +6,15 @@ The to do application is simple webapp that allows a user to manage a todo list.
 
 ### Running a Postgres database locally - Windows
 
-    $ 1. [Download Postgres](http://www.enterprisedb.com/products-services-training/pgdownload#windows) (Filesize 137mb)
-    $ 2. Use the standard setup during installation. Choose a port of your choice. Do not forget the admin password. No steps 
+     1. [Download Postgres](http://www.enterprisedb.com/products-services-training/pgdownload#windows) (Filesize 137mb)
+     2. Use the standard setup during installation. Choose a port of your choice. Do not forget the admin password. No steps 
     needed in the Stack Builder.
-    $ 3. Open Startmenu -> PostgreSQL 9.6 -> pgAdmin 4
-    $ 4. Create user &lt;SERVICE_NAME&gt;service: click right mouse button on 'Login/Group Roles' -> Create -> Login/Group Role... 
+     3. Open Startmenu -> PostgreSQL 9.6 -> pgAdmin 4
+     4. Create user &lt;SERVICE_NAME&gt;service: click right mouse button on 'Login/Group Roles' -> Create -> Login/Group Role... 
     Password is filled in the Definition tab. Tick the rights-boxes 'Can Login?' & 'Superuser' in Privileges.
-    $ 5. Create the database &lt;SERVICE_NAME&gt;service: click right mouse button on 'Databases' -> Create -> Database... 
+     5. Create the database &lt;SERVICE_NAME&gt;service: click right mouse button on 'Databases' -> Create -> Database... 
     Make sure that the owner is the &lt;SERVICE_NAME&gt;service user.
-    $ 6. Make sure that the connection_string in application.go is equal to all the info for your local db. Start         &lt;SERVICE_NAME&gt;service.
+     6. Make sure that the connection_string in application.go is equal to all the info for your local db. Start         &lt;SERVICE_NAME&gt;service.
 
 ### Running a Postgres database locally - Linux
 
