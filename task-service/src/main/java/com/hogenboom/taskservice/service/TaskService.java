@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Component
 public class TaskService {
-    Logger logger = LoggerFactory.getLogger(TaskService.class);
+    private Logger LOGGER = LoggerFactory.getLogger(TaskService.class);
 
     @Autowired
     private TaskRepository taskRepository;
@@ -29,12 +29,12 @@ public class TaskService {
     public void createTask(Task task) {
         validateTask(task);
         taskRepository.save(task);
-        logger.info("saved task: {}", task);
+        LOGGER.info("saved task: {}", task);
     }
 
     public void deleteTask(Task toBeDeletedTask) {
         taskRepository.delete(toBeDeletedTask);
-        logger.info("deleted task: {}", toBeDeletedTask);
+        LOGGER.info("deleted task: {}", toBeDeletedTask);
     }
 
     public Task getTaskById(long id) {
@@ -52,7 +52,7 @@ public class TaskService {
                     task.setDeadline(updatedTask.getDeadline());
                     return taskRepository.save(task);
                 }).orElseThrow(() -> new ResourceNotFoundException(String.format("Could not find a task with id = %s", taskId)));
-        logger.info("updated task: {}", updatedTask);
+        LOGGER.info("updated task: {}", updatedTask);
     }
 
     private void validateTask(Task task) {
@@ -63,6 +63,6 @@ public class TaskService {
     }
 
     private boolean isNullOrEmpty(String field) {
-        return field == null || field.length() == 0;
+        return field == null || field.trim().length() == 0;
     }
 }

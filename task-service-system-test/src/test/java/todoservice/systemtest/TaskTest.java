@@ -48,7 +48,7 @@ public class TaskTest extends BaseTest {
                 .contentType(ContentType.JSON)
                 .get("/tasks" )
         .then().log().all()
-                .statusCode(200)
+                .statusCode(404)
                 .body("", IsEmptyIterable.emptyIterable());
     }
 }

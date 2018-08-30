@@ -20,7 +20,7 @@ sudo docker run --name <taskservice>-postgres -p 5432:5432 -e POSTGRES_USER=<tas
     [$ sudo mkdir /var/log/loading-service]
     $ cd task-service
     $ mvn clean install
-    $ java -cp target/tasks-service-1.0.jar:target/lib/* 
+    $ java -cp target/my-app-1.0-SNAPSHOT.jar com.hogenboom.taskservice.WebApplication
 
 ## Next run the tests:
 
