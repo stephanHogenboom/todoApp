@@ -27,3 +27,8 @@ these fields in the /task-service/src/main/resources/application.properties file
 
     $ cd <task-service-system-test>
     $ mvn test  
+    
+
+## approaching the gui
+
+You can now look at the front-end by typing localhost:8080/todo in your browser
